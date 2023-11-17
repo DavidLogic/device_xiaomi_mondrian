@@ -1,4 +1,4 @@
-# Device tree for Poco F5 Pro | Redmi K60
+# Device tree for Poco F5 Pro | Redmi K60(mondrian)
 
 
 ## Specs
