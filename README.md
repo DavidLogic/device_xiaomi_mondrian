@@ -9,7 +9,7 @@
 | GPU       | Adreno 730                                                  |
 | Memory    | 8/12/16 GB RAM (LPDDR5)                                     |
 | Storage   | 256/512/1024 GB (UFS 3.1)                                   |
-| Battery   | Li-Po 5500 mAh , non-removable, 67W wired charging,20W wireless chargin|
+| Battery   | Li-Po 5500 mAh , non-removable, 67W wired charging,20W wireless charging|
 | Display   | 1440 x 3200 pixels, OLED,,560xxhdpi, 120 hz                 |
 | Camera    | ov64b (Primary), ov08d1 (Ultra-wide), ov02b1 (Macro)        |
 
