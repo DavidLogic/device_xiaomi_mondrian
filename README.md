@@ -1,5 +1,19 @@
 # Device tree for Poco F5 Pro | Redmi K60
 
+
+## Specs
+| Component | Specification                                               |
+|:----------|:------------------------------------------------------------|
+| SoC       | Snapdragon® 8+ Gen 1 (SM8475) 4nm                           |
+| CPU       | Octa-core: 1x Cortex-X2 & 3x Cortex-A710 & 4x Cortex-A510   |
+| GPU       | Adreno 730                                                  |
+| Memory    | 8/12/16 GB RAM (LPDDR5)                                     |
+| Storage   | 256/512/1024 GB (UFS 3.1)                                   |
+| Battery   | Li-Po 5500 mAh , non-removable, 67W wired charging,
+              20W wireless chargin                                        |
+| Display   | 1440 x 3200 pixels, OLED,,560xxhdpi, 120 hz                 |
+| Camera    | ov64b (Primary), ov08d1 (Ultra-wide), ov02b1 (Macro)        |
+
 ## Known issues
 - Device Specific Issues:
 - Fingerprint works on Goodix devices (most devices) and does not work on FPC devices.
