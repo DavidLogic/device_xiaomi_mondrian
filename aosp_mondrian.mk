@@ -9,7 +9,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common DerpFest stuff.
-$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
+$(call inherit-product, vendor/evolution/config/common_full_phone.mk)
 
 # Inherit from mondrian device.
 $(call inherit-product, device/xiaomi/mondrian/device.mk)
@@ -33,7 +33,7 @@ TARGET_SUPPORTS_QUICK_TAP := true
 
 ## Device identifier
 PRODUCT_DEVICE := mondrian
-PRODUCT_NAME := aosp_mondrian
+PRODUCT_NAME := evolution_mondrian
 PRODUCT_MANUFACTURER := Xiaomi
 
 # GMS
