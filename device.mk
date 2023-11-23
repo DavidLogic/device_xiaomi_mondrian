@@ -118,10 +118,6 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/prebuilts/dtb:dtb.img
 
-## DT2W
-#PRODUCT_PACKAGES += \
-#    DT2W-Service-Mondrian
-
 # F2FS utilities
 PRODUCT_PACKAGES += \
     sg_write_buffer \
@@ -210,7 +206,7 @@ PRODUCT_BOOT_JARS += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service-qti
+    android.hardware.power-service.xiaomi-libperfmgr
 
 # Properties
 include $(DEVICE_PATH)/configs/properties/default.mk
@@ -231,7 +227,9 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.udfps
+    android.hardware.sensors@2.1-service.xiaomi-multihal \
+    sensors.udfps \
+    libsensorndkbridge
     
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \

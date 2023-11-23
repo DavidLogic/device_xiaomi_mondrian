@@ -48,7 +48,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
 
     private SwitchPreference mAlwaysOnDisplayPreference;
     private SwitchPreference mDoubleTapPreference;
-    private ListPreference mPressUdfpsPreference;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -79,10 +78,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
         mDoubleTapPreference = (SwitchPreference) findPreference(DozeUtils.GESTURE_DOUBLE_TAP_KEY);
         mDoubleTapPreference.setEnabled(dozeEnabled);
         mDoubleTapPreference.setOnPreferenceChangeListener(this);
-
-        mPressUdfpsPreference = (ListPreference) findPreference(DozeUtils.GESTURE_PRESS_UDFPS_KEY);
-        mPressUdfpsPreference.setEnabled(dozeEnabled);
-        mPressUdfpsPreference.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -91,15 +86,13 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
             boolean value = Boolean.parseBoolean(newValue.toString());
             DozeUtils.enableAlwaysOn(getActivity(), value);
             mDoubleTapPreference.setEnabled(!value);
-            mPressUdfpsPreference.setEnabled(!value);
+            if (!value) {
+                mDoubleTapPreference.setChecked(value);
+            }
         }
         else if (DozeUtils.GESTURE_DOUBLE_TAP_KEY.equals(preference.getKey())) {
             boolean value = Boolean.parseBoolean(newValue.toString());      
             DozeUtils.enableDoubleTap(getActivity(), value);
-        }
-        else if (DozeUtils.GESTURE_PRESS_UDFPS_KEY.equals(preference.getKey())) {
-            int value = Integer.parseInt(newValue.toString());      
-            DozeUtils.setPressUdfpsMode(getActivity(), value);
         }
 
         return true;
@@ -117,6 +110,5 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
 
         mAlwaysOnDisplayPreference.setEnabled(isChecked);
         mDoubleTapPreference.setEnabled(isChecked);
-        mPressUdfpsPreference.setEnabled(isChecked);
     }
 }

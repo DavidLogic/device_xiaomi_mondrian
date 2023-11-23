@@ -39,13 +39,4 @@
         android:title="@string/double_tap_gesture_title"
         android:summary="@string/double_tap_gesture_summary" />
 
-    <ListPreference
-        android:key="gesture_press_udfps_type"
-        android:defaultValue="0"
-        android:icon="@drawable/ic_fingerprint"
-        android:title="@string/press_udfps_gesture_title"
-        android:summary="%s"
-        android:entries="@array/press_udfps_gesture_entries"
-        android:entryValues="@array/press_udfps_gesture_values" />
-
 </PreferenceScreen>

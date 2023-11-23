@@ -132,7 +132,6 @@ synaptics_dsx.ko
 nt36xxx-i2c.ko
 pm8941-pwrkey.ko
 qcom-hv-haptics.ko
-fpc_fod.ko
 goodix_fod.ko
 i2c-msm-geni.ko
 i3c-master-msm-geni.ko

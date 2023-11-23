@@ -29,7 +29,6 @@ import androidx.preference.PreferenceManager;
 import static android.provider.Settings.Secure.DOZE_ALWAYS_ON;
 import static android.provider.Settings.Secure.DOZE_DOUBLE_TAP_GESTURE;
 import static android.provider.Settings.Secure.DOZE_ENABLED;
-import static android.provider.Settings.Secure.DOZE_PRESS_UDFPS_MODE;
 
 class TouchControl {
     static {
@@ -47,7 +46,6 @@ public final class DozeUtils {
 
     protected static final String ALWAYS_ON_DISPLAY = "always_on_display";
     protected static final String GESTURE_DOUBLE_TAP_KEY = "gesture_double_tap";
-    protected static final String GESTURE_PRESS_UDFPS_KEY = "gesture_press_udfps_type";
 
     protected static final String DOZE_ENABLE = "doze_enable";
 
@@ -81,11 +79,6 @@ public final class DozeUtils {
                 DOZE_DOUBLE_TAP_GESTURE, 0);
         Log.w(TAG, "updateDoubleTap " + value);
         TouchControl.setDoubleTapMode(value);
-    }
-
-    protected static boolean setPressUdfpsMode(Context context, int mode) {
-        return Settings.Secure.putIntForUser(context.getContentResolver(),
-                DOZE_PRESS_UDFPS_MODE, mode, UserHandle.USER_CURRENT);
     }
 
     protected static boolean isAlwaysOnEnabled(Context context) {
