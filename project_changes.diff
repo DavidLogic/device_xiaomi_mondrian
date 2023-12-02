@@ -1,7 +1,7 @@
 
 project device/qcom/sepolicy_vndr/
 diff --git a/generic/vendor/common/location.te b/generic/vendor/common/location.te
-index 1dff035c..b7aa5b1c 100644
+index 1dff035c..7ba8f352 100644
 --- a/generic/vendor/common/location.te
 +++ b/generic/vendor/common/location.te
 @@ -65,5 +65,5 @@ userdebug_or_eng(`
@@ -11,7 +11,7 @@ index 1dff035c..b7aa5b1c 100644
 -# xtra-daemon control
 -get_prop(vendor_location, xtra_control_prop)
 +## xtra-daemon control
-+#get_prop(vendor_location, xtra_control_prop)
++# get_prop(vendor_location, xtra_control_prop)
 
 project external/avb/
 diff --git a/avbtool.py b/avbtool.py
@@ -36,6 +36,61 @@ index 05dc72c..9f3370d 100755
             fec_tmpfile.name],
            stderr=open(os.devnull, 'wb'))
      except subprocess.CalledProcessError as e:
+
+project frameworks/av/
+diff --git a/media/codec2/sfplugin/CCodec.cpp b/media/codec2/sfplugin/CCodec.cpp
+index feb0876b18..93a07479a5 100644
+--- a/media/codec2/sfplugin/CCodec.cpp
++++ b/media/codec2/sfplugin/CCodec.cpp
+@@ -18,6 +18,7 @@
+ #define LOG_TAG "CCodec"
+ #include <utils/Log.h>
+ 
++#include <fstream>
+ #include <sstream>
+ #include <thread>
+ 
+@@ -68,6 +69,17 @@ typedef CCodecConfig Config;
+ 
+ namespace {
+ 
++std::string getCurrentProcessName() {
++    std::ifstream file("/proc/self/cmdline");
++    if (file) {
++        std::string processName;
++        std::getline(file, processName, '\0');
++        file.close();
++        return processName;
++    }
++    return "";
++}
++
+ class CCodecWatchdog : public AHandler {
+ private:
+     enum {
+@@ -730,10 +742,19 @@ void CCodec::allocate(const sp<MediaCodecInfo> &codecInfo) {
+         mCallback->onError(UNKNOWN_ERROR, ACTION_CODE_FATAL);
+         return;
+     }
+-    ALOGD("allocate(%s)", codecInfo->getCodecName());
+-    mClientListener.reset(new ClientListener(this));
+-
++    
++    std::string processName = getCurrentProcessName();
+     AString componentName = codecInfo->getCodecName();
++
++    // Fix issue for bilibili switch to background 
++    if (processName == "com.bilibili.app.in:ijkservice") {
++        if (componentName == "c2.qti.hevc.decoder.low_latency") {
++            componentName = "c2.qti.avc.decoder";
++        }
++    }
++
++    ALOGD("allocate(%s) %s", componentName.c_str(), processName.c_str());
++    mClientListener.reset(new ClientListener(this));
+     std::shared_ptr<Codec2Client> client;
+ 
+     // set up preferred component store to access vendor store parameters
 
 project frameworks/base/
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
@@ -92,7 +147,7 @@ index 909c531c5e92..470652fd6f0a 100644
  
 diff --git a/services/core/java/com/android/server/display/ResolutionSettings.java b/services/core/java/com/android/server/display/ResolutionSettings.java
 new file mode 100644
-index 000000000000..2a61c5eb2697
+index 000000000000..a9e35fce83e8
 --- /dev/null
 +++ b/services/core/java/com/android/server/display/ResolutionSettings.java
 @@ -0,0 +1,83 @@
@@ -179,6 +234,7 @@ index 000000000000..2a61c5eb2697
 +        }
 +    }
 +}
+\ No newline at end of file
 diff --git a/telecomm/java/android/telecom/Connection.java b/telecomm/java/android/telecom/Connection.java
 index 49ad58550db8..dec6def806c6 100644
 --- a/telecomm/java/android/telecom/Connection.java
@@ -202,7 +258,7 @@ index 49ad58550db8..dec6def806c6 100644
       * Connection event used to inform Telecom when a hold operation on a call has failed.
       * <p>
 diff --git a/telephony/java/android/telephony/TelephonyManager.java b/telephony/java/android/telephony/TelephonyManager.java
-index ecd8c7a3d917..6fa62413cdd6 100644
+index ecd8c7a3d917..a5af0093cb80 100644
 --- a/telephony/java/android/telephony/TelephonyManager.java
 +++ b/telephony/java/android/telephony/TelephonyManager.java
 @@ -561,6 +561,35 @@ public class TelephonyManager {
@@ -236,8 +292,8 @@ index ecd8c7a3d917..6fa62413cdd6 100644
 +        int mSimVoiceConfig = TelephonyProperties.multi_sim_voice_capability().orElse(
 +                MultiSimVoiceCapability.UNKNOWN);
 +        return mSimVoiceConfig == MultiSimVoiceCapability.DSDA;
-+    }
-+    
++    }    
++
      /**
       * Returns the number of phones available.
       * Returns 0 if none of voice, sms, data is not supported

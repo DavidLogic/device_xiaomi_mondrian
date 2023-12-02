@@ -44,6 +44,22 @@ AB_OTA_POSTINSTALL_CONFIG += \
     POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
     FILESYSTEM_TYPE_vendor=erofs \
     POSTINSTALL_OPTIONAL_vendor=true
+
+# AIDL NDK backend
+PRODUCT_PACKAGES += \
+    android.hardware.common-V2-ndk_platform \
+    android.hardware.gnss-V1-ndk_platform \
+    android.hardware.identity-V3-ndk_platform \
+    android.hardware.keymaster-V3-ndk_platform \
+    android.hardware.light-V1-ndk_platform \
+    android.hardware.memtrack-V1-ndk_platform \
+    android.hardware.security.keymint-V1-ndk_platform \
+    android.hardware.security.secureclock-V1-ndk_platform \
+    android.hardware.security.sharedsecret-V1-ndk_platform
+
+# Atrace
+PRODUCT_PACKAGES += \
+    android.hardware.atrace@1.0-service
     
 # Audio
 SOONG_CONFIG_NAMESPACES += android_hardware_audio
@@ -70,14 +86,18 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libvolumelistener
 
+# Automotive
+PRODUCT_PACKAGES += \
+    android.hardware.automotive.vehicle@2.0-manager-lib
+
 # Bluetooth
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0.vendor \
+    android.hardware.bluetooth@1.0 \
     android.hardware.bluetooth.audio-impl \
-    com.qualcomm.qti.bluetooth_audio@1.0.vendor \
-    vendor.qti.hardware.bluetooth_audio@2.1.vendor \
-    vendor.qti.hardware.btconfigstore@1.0.vendor \
-    vendor.qti.hardware.btconfigstore@2.0.vendor
+    com.qualcomm.qti.bluetooth_audio@1.0 \
+    vendor.qti.hardware.bluetooth_audio@2.1 \
+    vendor.qti.hardware.btconfigstore@1.0 \
+    vendor.qti.hardware.btconfigstore@2.0
 
 # Boot control
 PRODUCT_PACKAGES += \
@@ -93,12 +113,22 @@ $(call inherit-product, vendor/xiaomi/camera/miuicamera.mk)
 
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.7.vendor \
+    camera.device@1.0-impl \
+    libcamera2ndk_vendor \
     vendor.qti.hardware.camera.aon@1.0.vendor \
     vendor.qti.hardware.camera.postproc@1.0.vendor
+
+PRODUCT_PACKAGES += \
+    libMegviiFacepp-0.5.2 \
+    libmegface
     
 PRODUCT_SYSTEM_PROPERTIES += \
     ro.miui.notch=1 \
     ro.product.mod_device=mondrian
+
+# Capabilityconfigstore
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.capabilityconfigstore@1.0
 
 # Dolby
 PRODUCT_COPY_FILES += \
@@ -117,6 +147,15 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
 # Dtb
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/prebuilts/dtb:dtb.img
+
+# DRM
+PRODUCT_PACKAGES += \
+    android.hardware.drm@1.4-service.clearkey \
+    libdrm.vendor
+
+# Dumpstate
+PRODUCT_PACKAGES += \
+    android.hardware.dumpstate@1.1
 
 # F2FS utilities
 PRODUCT_PACKAGES += \
@@ -138,19 +177,95 @@ PRODUCT_SYSTEM_PROPERTIES += \
     ro.hardware.fingerprint.fpc_fod=default \
     ro.hardware.fingerprint.goodix_fod=default
 
+# Gatekeeper
+PRODUCT_PACKAGES += \
+    android.hardware.gatekeeper@1.0
+
+# GPS
+PRODUCT_PACKAGES += \
+    android.hardware.gnss@2.1 \
+    android.hardware.power@1.2 \
+    libgrpc++_unsecure
+    
+# Graphics
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.composer@2.4 \
+    libgralloc.qti \
+    libgui_vendor \
+    libqdMetaData \
+    vendor.display.config@1.11 \
+    vendor.qti.hardware.display.allocator@1.0 \
+    vendor.qti.hardware.display.allocator@3.0 \
+    vendor.qti.hardware.display.allocator@4.0 \
+    vendor.qti.hardware.display.composer@1.0 \
+    vendor.qti.hardware.display.composer@2.0 \
+    vendor.qti.hardware.display.composer@3.1 \
+    vendor.qti.hardware.display.config-V1-ndk_platform \
+    vendor.qti.hardware.display.config-V2-ndk_platform \
+    vendor.qti.hardware.display.config-V3-ndk_platform \
+    vendor.qti.hardware.display.config-V4-ndk_platform \
+    vendor.qti.hardware.display.config-V5-ndk_platform \
+    vendor.qti.hardware.display.config-V6-ndk_platform \
+    vendor.qti.hardware.display.demura@2.0 \
+    vendor.qti.hardware.display.mapper@1.0 \
+    vendor.qti.hardware.display.mapper@2.0 \
+    vendor.qti.hardware.display.mapper@3.0 \
+    vendor.qti.hardware.display.mapper@4.0 \
+    vendor.qti.hardware.display.mapperextensions@1.2
+
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl.recovery
+    android.hardware.health@2.1-impl-qti \
+    android.hardware.health@2.1-service
+
+# HIDL
+PRODUCT_PACKAGES += \
+    android.hidl.allocator@1.0 \
+    android.hidl.memory.block@1.0 \
+    libhidltransport \
+    libhwbinder
+
+# Hotword Enrollement
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/privapp-permissions-hotword.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-hotword.xml
+    
+# IPACM
+PRODUCT_PACKAGES += \
+    ipacm \
+    IPACM_cfg.xml \
+    IPACM_Filter_cfg.xml
+
+# IR
+PRODUCT_PACKAGES += \
+    android.hardware.ir@1.0-impl \
+    android.hardware.ir@1.0-service
+
+# JSON
+PRODUCT_PACKAGES += \
+    libjson
+
+# Keymaster
+PRODUCT_PACKAGES += \
+    android.hardware.keymaster@4.1 \
+    libkeymaster_messages
 
 # Media
 PRODUCT_PACKAGES += \
-    libavservices_minijail \
-    libmediaplayerservice \
-    libnl
+    libcodec2_hidl@1.0 \
+    libcodec2_soft_common \
+    libsfplugin_ccodec_utils
 
 # MultiGen LRU
 PRODUCT_SYSTEM_PROPERTIES += \
     persist.device_config.mglru_native.lru_gen_config=all
+
+# Network
+PRODUCT_PACKAGES += \
+    android.system.net.netd@1.1
+
+# Neural networks
+PRODUCT_PACKAGES += \
+    android.hardware.neuralnetworks-V1-ndk_platform
 
 # NFC
 PRODUCT_PACKAGES += \
@@ -185,8 +300,8 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay-lineage
 	
 # Partitions
+PRODUCT_BUILD_SUPER_PARTITION := false
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
-#PRODUCT_BUILD_SUPER_PARTITION := true
 
 # Parts
 PRODUCT_PACKAGES += \
@@ -217,20 +332,25 @@ PRODUCT_PACKAGES += \
     QtiTelephony \
     qti-telephony-common
 
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.perf@2.3
-
 # Rootdir
 PRODUCT_PACKAGES += \
     init.recovery.qcom.rc \
     init.qcom.rc
 
+# Secure element
+PRODUCT_PACKAGES += \
+    android.hardware.secure_element@1.2
+
 # Sensors
 PRODUCT_PACKAGES += \
     android.hardware.sensors@2.1-service.xiaomi-multihal \
-    sensors.udfps \
-    libsensorndkbridge
-    
+    libsensorndkbridge \
+    sensors.xiaomi
+
+# Servicetracker
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.servicetracker@1.2
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
@@ -264,6 +384,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     telephony-ext
 
+# Thermal
+PRODUCT_PACKAGES += \
+    android.hardware.thermal@2.0.vendor
+
 # Update engine
 PRODUCT_PACKAGES += \
     checkpoint_gc \
@@ -286,3 +410,4 @@ PRODUCT_SYSTEM_EXT_PROPERTIES += \
     debug.sf.enable_hwc_vds=1 \
     persist.debug.wfd.enable=1 \
     persist.sys.wfd.virtual=0
+

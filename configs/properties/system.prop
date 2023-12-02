@@ -64,3 +64,7 @@ persist.vendor.sensors.enable.mag_filter=true
 # MAJOR_CLASS: 0x02 -> 2 (Phone)
 # MINOR_CLASS: 0x0C -> 12 (Smart Phone)
 bluetooth.device.class_of_device=90,2,12
+
+# ro.debuggable=1
+# ro.adb.secure=0
+# persist.sys.usb.config=mtp,adb
